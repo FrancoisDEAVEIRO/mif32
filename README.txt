@@ -1,0 +1,5 @@
+Compilation : mpiCC main.cpp Grille.cpp Noeud.cpp -o proj
+
+Exécution : mpirun -np 4 ./proj
+
+

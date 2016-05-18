@@ -1,0 +1,10 @@
+mpirun-np P ./prog
+Le proc 0 est le coordinateur
+1 noeud = 1 proc
+proc1 tire au hasard un couple a;b qui sera son identifiant
+proc 0 fait un broadcast aux autres proc pour savoir qui est responsable de la zone puis découpage en 2 de la zone
+
+Etape 2 
+On créer n*10 coordonnées(a;b) ->a+b à insérer.
+On test une zone random à insérer 
+Lorsqu'on insert un nouveau noeud, on conserve le voisinnage.
