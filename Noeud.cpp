@@ -11,8 +11,18 @@ Noeud::Noeud(){
 	espace.yMax = -1;
 }
 
+Noeud::Noeud(int num, int val, int x, int y){
+	value = val;
+	X = x;
+	Y = y;
+	id = num;
+	espace.xMin = -1;
+	espace.xMax = -1;
+	espace.yMin = -1;
+	espace.yMax = -1;
+}
+
 void Noeud::create(int N, int maxValue){
-	srand(time(NULL));
 	value = rand()%maxValue;
 	X = rand()%N;
 	Y = rand()%N;

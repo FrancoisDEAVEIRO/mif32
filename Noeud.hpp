@@ -22,6 +22,7 @@ class Noeud{
 		int value;
 		Espace espace;	
 		Noeud();
+		Noeud(int,int,int,int);
 		void affiche();
 		void create(int,int);
 		int hauteur();
