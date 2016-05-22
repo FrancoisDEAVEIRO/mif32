@@ -30,6 +30,4 @@ class Noeud{
 };
 
 
-
-
 #endif // NOEUD_HPP
