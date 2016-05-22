@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
     int nb_process;
     MPI_Comm_size(MPI_COMM_WORLD, &nb_process);
-    int nbInfoNode = 4;
+    int nbInfoNode = 3;
     int taille = (nb_process-1)*nbInfoNode;
     int buff[taille], tag[1];
     for(int j=0; j<taille; j++){
@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
                 std::cout<<buff[j]<<" ";
             }
             std::cout << std::endl;
-            Noeud n(i, buff[(i-1)*nbInfoNode], buff[(i-1)*nbInfoNode+1], buff[(i-1)*nbInfoNode+2]);
+            Noeud n(i, buff[(i-1)*nbInfoNode], buff[(i-1)*nbInfoNode+1]);
             n.affiche();
             int resp = grille.resp(n.X, n.Y);
             // cas de la grille vide
@@ -74,13 +74,12 @@ int main(int argc, char** argv) {
 				// disperse la RNG
 				srand(time(NULL) + my_rank);
 				Noeud n;
-				n.create(N,100);        
+				n.create(N);        
 				for(int i=0; i<taille; i++){
 					if(buff[i]==-1){
 						buff[i] = my_rank;
 						buff[i+1] = n.X;
 						buff[i+2] = n.Y;
-						buff[i+3] = n.value;
 						break;
 					}
 				}

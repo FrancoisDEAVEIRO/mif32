@@ -19,12 +19,12 @@ class Noeud{
 		int id;
 		int X;
 		int Y;
-		int value;
+		int tab[];
 		Espace espace;	
 		Noeud();
-		Noeud(int,int,int,int);
+		Noeud(int,int,int);
 		void affiche();
-		void create(int,int);
+		void create(int);
 		int hauteur();
 		int largeur();
 };
