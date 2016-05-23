@@ -14,7 +14,7 @@ class Grille{
         Grille(int);
         void insertion(Noeud&);
         void affiche();
-        int resp(int x, int y);
+        Noeud& resp(int x, int y);
     
 };
 

@@ -7,19 +7,25 @@
 #include <stdlib.h>
 #include <time.h>
 
-struct Espace{
+typedef struct{
 	int xMin;
 	int xMax;
 	int yMin;
 	int yMax;
-};
+}Espace;
+
+typedef struct{
+	int x;
+	int y;
+	int value;
+}Data;
 
 class Noeud{
 	public : 
 		int id;
 		int X;
 		int Y;
-		int tab[];
+		std::vector<Data> tab;
 		Espace espace;	
 		Noeud();
 		Noeud(int,int,int);

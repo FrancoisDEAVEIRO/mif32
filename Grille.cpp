@@ -22,8 +22,7 @@ void Grille::insertion(Noeud& n){
         n.espace.yMin = 0;
         n.espace.yMax = N;
     }else{
-		int idResp = resp(n.X, n.Y);
-		std::cout << "resp : " << idResp << std::endl;
+		int idResp = resp(n.X, n.Y).id;
 		for(std::vector<Noeud>::iterator i = noeuds.begin(); i != noeuds.end();i++){
 			if((*i).id == idResp){
 				// On divise en 2 l'espace
@@ -55,9 +54,9 @@ void Grille::insertion(Noeud& n){
 			}
 		}
     }
-    	std::cout << "noeud inseré" << std::endl;
-		noeuds.push_back(n);
-		affiche();
+	std::cout << "noeud inseré" << std::endl;
+	noeuds.push_back(n);
+	affiche();
 }
 
 
@@ -67,12 +66,12 @@ void Grille::affiche(){
     }
 }
 
-int Grille::resp(int x, int y){
+Noeud& Grille::resp(int x, int y){
     for(std::vector<Noeud>::iterator i = noeuds.begin(); i != noeuds.end();i++){
         if((*i).espace.xMin < x && (*i).espace.xMax >= x && (*i).espace.yMin < y && (*i).espace.yMax >= y)
-            return (*i).id;
+            return (*i);
     }
-    return 0;
+    return noeuds[0];
 }
 
 
