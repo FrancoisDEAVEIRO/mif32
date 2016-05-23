@@ -86,8 +86,10 @@ int main(int argc, char** argv) {
 		
 		// RECHERCHE
 		for(int i=0; i<nbInfoStockees; i++){
-			tag[1] = RECHERCHE; 
+			tag[0] = RECHERCHE; 
 			MPI_Bcast(tag, 1, MPI_INT, 0, MPI_COMM_WORLD); 
+						
+			std::cout<<"OK1"<<std::endl;
 			// Méthode du Broadcast
 			if(first5Data.size() > i){
 				data[0] = first5Data[i].x;
@@ -137,8 +139,8 @@ int main(int argc, char** argv) {
 					}
 					std::cout << std::endl;
 					break;
-				}{
-				case INSERTION :
+				}
+				case INSERTION : {
 					fichier << "INSERTION" << std::endl;
 					MPI_Recv( data, 2, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
 					for(unsigned int i; i<grille.noeuds.size(); i++){
@@ -156,12 +158,15 @@ int main(int argc, char** argv) {
 					MPI_Send(ack, 1, MPI_INT, 0,  0, MPI_COMM_WORLD);
 					fichier << "["<< my_rank << "] Envoie ACK à 0" << std::endl;
 					break;
-				}{ case RECHERCHE :
+				} case RECHERCHE : {
 					fichier << "RECHERCHE" << std::endl;
+					std::cout<<"OK1"<<std::endl;
 					MPI_Recv( data, 2, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
 					fichier << "["<< my_rank << "] Reception du message de broadcast de recherche" << std::endl;
 					for(std::vector<Noeud>::iterator i = grille.noeuds.begin(); i != grille.noeuds.end();i++){
+						
 						if((*i).id == my_rank){
+							std::cout<<"OK"<<std::endl;
 							for(unsigned int j; j<(*i).tab.size(); j++){
 								if((*i).tab[j].x == data[0] && (*i).tab[j].y == data[1]){
 									ack[0] = (*i).tab[j].value;
@@ -172,14 +177,15 @@ int main(int argc, char** argv) {
 							break;
 						}
 					}
-				}{
-				case FIN :
+					break;
+				}
+				case FIN : {
 					fichier << "FIN" << std::endl;
 					fin = true;
 					fichier << "["<< my_rank << "] Fin" << std::endl;
 					break;
-				}{
-				default:
+				}
+				default: {
 					std::cout << "error tag type" << std::endl;
 					break;
 				}
