@@ -87,15 +87,29 @@ int main(int argc, char** argv) {
 		// RECHERCHE
 		for(int i=0; i<nbInfoStockees; i++){
 			tag[0] = RECHERCHE; 
-			MPI_Bcast(tag, 1, MPI_INT, 0, MPI_COMM_WORLD); 
-						
-			std::cout<<"OK1"<<std::endl;
-			// Méthode du Broadcast
+			
+			// 5 premières données
+			for(int j=1; j<nb_process; j++)	 
+				MPI_Send(tag, 1, MPI_INT,j, 0, MPI_COMM_WORLD); 				
 			if(first5Data.size() > i){
 				data[0] = first5Data[i].x;
+				data[1] = first5Data[i].y;			
+			}
+			for(int j=1; j<nb_process; j++)	 
+				MPI_Send(data, 2, MPI_INT,j, 0, MPI_COMM_WORLD); 
+			//MPI_Bcast(data, 2, MPI_INT, 0, MPI_COMM_WORLD); 
+			fichier << "[0] Broadcast : recherche de la valeur en  [" << data[0] << "," << data[1] << "]" << std::endl;
+			MPI_Recv(ack, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
+			fichier << "[0] Resultat de la recherche : " << ack[0] << std::endl;
+			// 5 dernières données
+			for(int j=1; j<nb_process; j++)	 
+				MPI_Send(tag, 1, MPI_INT,j, 0, MPI_COMM_WORLD); 				
+			if(last5Data.size() > i){
+				data[0] = last5Data[i].x;
 				data[1] = last5Data[i].y;			
 			}
-			MPI_Bcast(data, 2, MPI_INT, 0, MPI_COMM_WORLD); 
+			for(int j=1; j<nb_process; j++)	 
+				MPI_Send(data, 2, MPI_INT,j, 0, MPI_COMM_WORLD); 
 			fichier << "[0] Broadcast : recherche de la valeur en  [" << data[0] << "," << data[1] << "]" << std::endl;
 			MPI_Recv(ack, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
 			fichier << "[0] Resultat de la recherche : " << ack[0] << std::endl;
@@ -111,6 +125,7 @@ int main(int argc, char** argv) {
     //Autres noeuds
     else{
 		bool fin = false;
+		Noeud node;
 		while(!fin){
 		// Reception du type de message à traiter ensuite
 			MPI_Recv( tag, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
@@ -121,14 +136,14 @@ int main(int argc, char** argv) {
 					fichier << "CREATION" << std::endl;
 					MPI_Recv( buff, taille, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
 					// disperse la RNG
-					srand(time(NULL) + my_rank);
-					Noeud n;
-					n.create(N);        
+					srand(time(NULL) + my_rank);					
+					node.create(N);        
+					node.id = my_rank;
 					for(int i=0; i<taille; i++){
 						if(buff[i]==-1){
 							buff[i] = my_rank;
-							buff[i+1] = n.X;
-							buff[i+2] = n.Y;
+							buff[i+1] = node.X;
+							buff[i+2] = node.Y;
 							break;
 						}
 					}
@@ -143,16 +158,12 @@ int main(int argc, char** argv) {
 				case INSERTION : {
 					fichier << "INSERTION" << std::endl;
 					MPI_Recv( data, 2, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
-					for(unsigned int i; i<grille.noeuds.size(); i++){
-						if(grille.noeuds[i].id == my_rank){
-							Data d;
-							d.x = data[0];
-							d.y = data[1];
-							d.value = data[0] + data[1];
-							grille.noeuds[i].tab.push_back(d);
-							break;
-						}
-					}
+					Data d;
+					d.x = data[0];
+					d.y = data[1];
+					d.value = data[0] + data[1];
+					node.tab.push_back(d);
+
 					fichier << "["<< my_rank << "] Donnée insérée" << std::endl;
 					ack[0] = 1;
 					MPI_Send(ack, 1, MPI_INT, 0,  0, MPI_COMM_WORLD);
@@ -160,23 +171,17 @@ int main(int argc, char** argv) {
 					break;
 				} case RECHERCHE : {
 					fichier << "RECHERCHE" << std::endl;
-					std::cout<<"OK1"<<std::endl;
-					MPI_Recv( data, 2, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+					MPI_Recv( data, 2, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);					
 					fichier << "["<< my_rank << "] Reception du message de broadcast de recherche" << std::endl;
-					for(std::vector<Noeud>::iterator i = grille.noeuds.begin(); i != grille.noeuds.end();i++){
-						
-						if((*i).id == my_rank){
-							std::cout<<"OK"<<std::endl;
-							for(unsigned int j; j<(*i).tab.size(); j++){
-								if((*i).tab[j].x == data[0] && (*i).tab[j].y == data[1]){
-									ack[0] = (*i).tab[j].value;
-									MPI_Send(ack, 1, MPI_INT, 0,  0, MPI_COMM_WORLD);
-									fichier << "["<< my_rank << "] Envoie de la donnée à 0" << std::endl;
-								}
-							}
+					for(unsigned int i=0; i<node.tab.size(); i++){
+						if(node.tab[i].x == data[0] && node.tab[i].y == data[1]){
+							ack[0] = node.tab[i].value;
+							MPI_Send(ack, 1, MPI_INT, 0,  0, MPI_COMM_WORLD);
+							fichier << "["<< my_rank << "] Envoie de la donnée à 0" << std::endl;
 							break;
 						}
 					}
+
 					break;
 				}
 				case FIN : {
