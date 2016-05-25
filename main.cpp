@@ -115,6 +115,36 @@ int main(int argc, char** argv) {
 			fichier << "[0] Resultat de la recherche : " << ack[0] << std::endl;
 		}
 		
+		//SUPPRESSION	
+		int noeudDelete = (rand() % (nb_process - 1)) + 1;
+		std::cout << "noeud a delete : " << noeudDelete << std::endl;
+		tag[0] = SUPPRESSION; 
+		MPI_Send(tag, 1, MPI_INT, noeudDelete, 0, MPI_COMM_WORLD); 
+		// On cherche le noeud à delete
+		for(std::vector<Noeud>::iterator i = grille.noeuds.begin(); i != grille.noeuds.end();i++){
+			if((*i).id == noeudDelete){
+				// Récupération des données du noeud 
+				tag[0] = INSERTION; 
+				MPI_Send(tag, 1, MPI_INT, (*i).idVoisin, 0, MPI_COMM_WORLD);
+				// Transfert vers le noeud voisin
+				for(unsigned int j=0; j<(*i).tab.size(); j++){
+					Data d;
+					d.x = rand()%N;
+					d.y = rand()%N;
+					data[0] = (*i).tab[j].x;
+					data[1] = (*i).tab[j].y;
+					MPI_Send(data, 2, MPI_INT, (*i).idVoisin, 0, MPI_COMM_WORLD);
+					fichier << "[0] Envoie de la donnee " << data[0] << " à insérer pour : " << (*i).idVoisin << std::endl;
+					MPI_Recv(ack, 1, MPI_INT, (*i).idVoisin, 0, MPI_COMM_WORLD, &status);
+					fichier << "[0] ACK reçu de " << (*i).idVoisin << std::endl;
+				}
+				
+				// Suppression du noeud dans la grille
+				grille.noeuds.erase(i);
+			}
+		}
+		
+		
 		// FIN des transmission, on informe tous les noeuds
 		for(int i=1; i<nb_process; i++){ 
 			tag[0] = FIN;  
@@ -188,6 +218,12 @@ int main(int argc, char** argv) {
 					fichier << "FIN" << std::endl;
 					fin = true;
 					fichier << "["<< my_rank << "] Fin" << std::endl;
+					break;
+				}
+				case SUPPRESSION : {
+					/*MPI_Finalize();
+					fichier.close();
+					return 0;*/
 					break;
 				}
 				default: {

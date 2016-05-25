@@ -25,6 +25,7 @@ class Noeud{
 		int id;
 		int X;
 		int Y;
+		int idVoisin;
 		std::vector<Data> tab;
 		Espace espace;	
 		Noeud();

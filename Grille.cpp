@@ -56,6 +56,9 @@ void Grille::insertion(Noeud& n){
 					n.X = (rand()% (n.espace.yMax - n.espace.yMin)) + n.espace.yMin;
 					n.Y = (rand()% (n.espace.yMax - n.espace.yMin)) + n.espace.yMin;
 				}
+				// Mise à jour du voisin
+				(*i).idVoisin = n.id;
+				n.id = (*i).id;
 			}
 		}
     }
