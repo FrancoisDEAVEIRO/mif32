@@ -51,6 +51,11 @@ void Grille::insertion(Noeud& n){
 						n.espace.xMin = (*i).espace.xMax;
 					}
 				}
+				// On vérifie que le noeud insérer à ses coordonnées qui sont dans le nouvel espace, sinon on lui en donne de nouvelle
+				if(n.espace.xMin>n.X || n.espace.xMax < n.X || n.espace.yMin > n.Y || n.espace.yMax < n.Y ){
+					n.X = (rand()% (n.espace.yMax - n.espace.yMin)) + n.espace.yMin;
+					n.Y = (rand()% (n.espace.yMax - n.espace.yMin)) + n.espace.yMin;
+				}
 			}
 		}
     }

@@ -1,65 +1,46 @@
 [3] TAG reçu : CREATION
 [3] Noeud crée, envoie au à 0
+[2] TAG reçu : INSERTION
+[2] Donnée insérée
+[2] Envoie ACK à 0
+[3] TAG reçu : INSERTION
+[3] Donnée insérée
+[3] Envoie ACK à 0
+[3] TAG reçu : INSERTION
+[3] Donnée insérée
+[3] Envoie ACK à 0
+[3] TAG reçu : INSERTION
+[3] Donnée insérée
+[3] Envoie ACK à 0
+[3] TAG reçu : INSERTION
+[3] Donnée insérée
+[3] Envoie ACK à 0
+[3] TAG reçu : INSERTION
+[3] Donnée insérée
+[3] Envoie ACK à 0
+[3] TAG reçu : INSERTION
+[3] Donnée insérée
+[3] Envoie ACK à 0
+[3] TAG reçu : INSERTION
+[3] Donnée insérée
+[3] Envoie ACK à 0
 [1] TAG reçu : INSERTION
 [1] Donnée insérée
 [1] Envoie ACK à 0
-[1] TAG reçu : INSERTION
-[1] Donnée insérée
-[1] Envoie ACK à 0
-[1] TAG reçu : INSERTION
-[1] Donnée insérée
-[1] Envoie ACK à 0
-[1] TAG reçu : INSERTION
-[1] Donnée insérée
-[1] Envoie ACK à 0
-[1] TAG reçu : INSERTION
-[1] Donnée insérée
-[1] Envoie ACK à 0
-[1] TAG reçu : INSERTION
-[1] Donnée insérée
-[1] Envoie ACK à 0
-[1] TAG reçu : RECHERCHE
-[1] Reception du message de broadcast de recherche
-[1] TAG reçu : RECHERCHE
-[1] Reception du message de broadcast de recherche
-[1] TAG reçu : RECHERCHE
-[1] Reception du message de broadcast de recherche
-[1] TAG reçu : RECHERCHE
-[1] Reception du message de broadcast de recherche
-[1] TAG reçu : RECHERCHE
-[1] Reception du message de broadcast de recherche
-[1] TAG reçu : RECHERCHE
-[1] Reception du message de broadcast de recherche
-[1] TAG reçu : RECHERCHE
-[1] Reception du message de broadcast de recherche
-[1] TAG reçu : RECHERCHE
-[1] Reception du message de broadcast de recherche
-[1] TAG reçu : RECHERCHE
-[1] Reception du message de broadcast de recherche
-[1] TAG reçu : RECHERCHE
-[1] Reception du message de broadcast de recherche
-[1] TAG reçu : FIN
-[1] Fin
-HE
-[3] Reception du message de broadcast de recherche
-[3] Envoie de la donnée à 0
-[3] TAG reçu : RECHERCHE
-[3] Reception du message de broadcast de recherche
-[3] TAG reçu : RECHERCHE
-[3] Reception du message de broadcast de recherche
-[3] TAG reçu : RECHERCHE
-[3] Reception du message de broadcast de recherche
-[3] Envoie de la donnée à 0
-[3] TAG reçu : RECHERCHE
-[3] Reception du message de broadcast de recherche
-[3] TAG reçu : RECHERCHE
-[3] Reception du message de broadcast de recherche
-[3] TAG reçu : RECHERCHE
-[3] Reception du message de broadcast de recherche
-[3] TAG reçu : FIN
-[3] Fin
-e broadcast de recherche
-[2] Envoie de la donnée à 0
+[2] TAG reçu : INSERTION
+[2] Donnée insérée
+[2] Envoie ACK à 0
+[2] TAG reçu : INSERTION
+[2] Donnée insérée
+[2] Envoie ACK à 0
+[2] TAG reçu : RECHERCHE
+[2] Reception du message de broadcast de recherche
+[2] TAG reçu : RECHERCHE
+[2] Reception du message de broadcast de recherche
+[2] TAG reçu : RECHERCHE
+[2] Reception du message de broadcast de recherche
+[2] TAG reçu : RECHERCHE
+[2] Reception du message de broadcast de recherche
 [2] TAG reçu : RECHERCHE
 [2] Reception du message de broadcast de recherche
 [2] Envoie de la donnée à 0
@@ -67,94 +48,117 @@ e broadcast de recherche
 [2] Reception du message de broadcast de recherche
 [2] TAG reçu : RECHERCHE
 [2] Reception du message de broadcast de recherche
-[2] Envoie de la donnée à 0
 [2] TAG reçu : RECHERCHE
 [2] Reception du message de broadcast de recherche
 [2] Envoie de la donnée à 0
 [2] TAG reçu : RECHERCHE
 [2] Reception du message de broadcast de recherche
-[2] Envoie de la donnée à 0
+[2] TAG reçu : RECHERCHE
+[2] Reception du message de broadcast de recherche
 [2] TAG reçu : FIN
 [2] Fin
-2
-[0] ACK reçu de 20
+à 0
+[1] TAG [3] TAG reçu : RECHERCHE
+[3] Reception du message de broadcast de re[1] TAG [3] TAG reçu : RECHERCHE
+[3] Reception du message de broadcast de recherche
+[3] TAG reçu : RECHER[1] TAG reçu : RECHERCHE
+[1] Reception du message de b[3] TAG reçu : FIN
+[3] Fin
+voie de la donnée à 0
+[1] TAG reçu : FIN
+[1] Fin
+N vers : 2
+[0] Envoie de la donnee 433 à insérer pour : 2
+[0] ACK reçu de 16
 [0] Envoie TAG INSERTION vers : 3
-[0] Envoie de la donnee 107 à insérer pour : 3
+[0] Envoie de la donnee 951 à insérer pour : 3
+[0] ACK reçu de 17
+[0] Envoie TAG INSERTION vers : 1
+[0] Envoie de la donnee 988 à insérer pour : 1
+[0] ACK reçu de 18
+[0] Envoie TAG INSERTION vers : 3
+[0] Envoie de la donnee 970 à insérer pour : 3
+[0] ACK reçu de 19
+[0] Envoie TAG INSERTION vers : 1
+[0] Envoie de la donnee 642 à insérer pour : 1
+[0] ACK reçu de 20
+[0] Envoie TAG INSERTION vers : 1
+[0] Envoie de la donnee 25 à insérer pour : 1
 [0] ACK reçu de 21
 [0] Envoie TAG INSERTION vers : 3
-[0] Envoie de la donnee 136 à insérer pour : 3
+[0] Envoie de la donnee 759 à insérer pour : 3
 [0] ACK reçu de 22
 [0] Envoie TAG INSERTION vers : 3
-[0] Envoie de la donnee 529 à insérer pour : 3
+[0] Envoie de la donnee 422 à insérer pour : 3
 [0] ACK reçu de 23
-[0] Envoie TAG INSERTION vers : 2
-[0] Envoie de la donnee 937 à insérer pour : 2
+[0] Envoie TAG INSERTION vers : 3
+[0] Envoie de la donnee 767 à insérer pour : 3
 [0] ACK reçu de 24
-[0] Envoie TAG INSERTION vers : 3
-[0] Envoie de la donnee 579 à insérer pour : 3
+[0] Envoie TAG INSERTION vers : 2
+[0] Envoie de la donnee 728 à insérer pour : 2
 [0] ACK reçu de 25
-[0] Envoie TAG INSERTION vers : 2
-[0] Envoie de la donnee 677 à insérer pour : 2
+[0] Envoie TAG INSERTION vers : 3
+[0] Envoie de la donnee 796 à insérer pour : 3
 [0] ACK reçu de 26
-[0] Envoie TAG INSERTION vers : 3
-[0] Envoie de la donnee 457 à insérer pour : 3
+[0] Envoie TAG INSERTION vers : 1
+[0] Envoie de la donnee 186 à insérer pour : 1
 [0] ACK reçu de 27
-[0] Envoie TAG INSERTION vers : 2
-[0] Envoie de la donnee 126 à insérer pour : 2
+[0] Envoie TAG INSERTION vers : 1
+[0] Envoie de la donnee 368 à insérer pour : 1
 [0] ACK reçu de 28
-[0] Envoie TAG INSERTION vers : 3
-[0] Envoie de la donnee 381 à insérer pour : 3
+[0] Envoie TAG INSERTION vers : 1
+[0] Envoie de la donnee 179 à insérer pour : 1
 [0] ACK reçu de 29
 [0] Envoie TAG INSERTION vers : 3
-[0] Envoie de la donnee 760 à insérer pour : 3
+[0] Envoie de la donnee 204 à insérer pour : 3
 [0] ACK reçu de 30
-[0] Envoie TAG INSERTION vers : 1
-[0] Envoie de la donnee 408 à insérer pour : 1
+[0] Envoie TAG INSERTION vers : 3
+[0] Envoie de la donnee 201 à insérer pour : 3
 [0] ACK reçu de 31
 [0] Envoie TAG INSERTION vers : 2
-[0] Envoie de la donnee 188 à insérer pour : 2
+[0] Envoie de la donnee 393 à insérer pour : 2
 [0] ACK reçu de 32
 [0] Envoie TAG INSERTION vers : 3
-[0] Envoie de la donnee 196 à insérer pour : 3
+[0] Envoie de la donnee 415 à insérer pour : 3
 [0] ACK reçu de 33
 [0] Envoie TAG INSERTION vers : 1
-[0] Envoie de la donnee 119 à insérer pour : 1
+[0] Envoie de la donnee 736 à insérer pour : 1
 [0] ACK reçu de 34
-[0] Envoie TAG INSERTION vers : 1
-[0] Envoie de la donnee 845 à insérer pour : 1
+[0] Envoie TAG INSERTION vers : 3
+[0] Envoie de la donnee 654 à insérer pour : 3
 [0] ACK reçu de 35
-[0] Envoie TAG INSERTION vers : 2
-[0] Envoie de la donnee 903 à insérer pour : 2
+[0] Envoie TAG INSERTION vers : 1
+[0] Envoie de la donnee 990 à insérer pour : 1
 [0] ACK reçu de 36
 [0] Envoie TAG INSERTION vers : 3
-[0] Envoie de la donnee 350 à insérer pour : 3
+[0] Envoie de la donnee 344 à insérer pour : 3
 [0] ACK reçu de 37
-[0] Envoie TAG INSERTION vers : 2
-[0] Envoie de la donnee 266 à insérer pour : 2
+[0] Envoie TAG INSERTION vers : 1
+[0] Envoie de la donnee 120 à insérer pour : 1
 [0] ACK reçu de 38
 [0] Envoie TAG INSERTION vers : 2
-[0] Envoie de la donnee 307 à insérer pour : 2
+[0] Envoie de la donnee 471 à insérer pour : 2
 [0] ACK reçu de 39
-[0] Broadcast : recherche de la valeur en  [441,571]
-[0] Resultat de la recherche : 1012
-[0] Broadcast : recherche de la valeur en  [903,293]
-[0] Resultat de la recherche : 1196
-[0] Broadcast : recherche de la valeur en  [863,280]
-[0] Resultat de la recherche : 1143
-[0] Broadcast : recherche de la valeur en  [350,102]
-[0] Resultat de la recherche : 452
-[0] Broadcast : recherche de la valeur en  [95,12]
-[0] Resultat de la recherche : 107
-[0] Broadcast : recherche de la valeur en  [266,580]
-[0] Resultat de la recherche : 846
-[0] Broadcast : recherche de la valeur en  [688,15]
-[0] Resultat de la recherche : 703
-[0] Broadcast : recherche de la valeur en  [307,962]
-[0] Resultat de la recherche : 1269
-[0] Broadcast : recherche de la valeur en  [182,529]
-[0] Resultat de la recherche : 711
-[0] Broadcast : recherche de la valeur en  [182,529]
-[0] Resultat de la recherche : 711
+[0] Broadcast : recherche de la valeur en  [406,711]
+[0] Resultat de la recherche : 1117
+[0] Broadcast : recherche de la valeur en  [990,416]
+[0] Resultat de la recherche : 1406
+[0] Broadcast : recherche de la valeur en  [871,351]
+[0] Resultat de la recherche : 1222
+[0] Broadcast : recherche de la valeur en  [344,602]
+[0] Resultat de la recherche : 946
+[0] Broadcast : recherche de la valeur en  [987,576]
+[0] Resultat de la recherche : 1563
+[0] Broadcast : recherche de la valeur en  [120,970]
+[0] Resultat de la recherche : 1090
+[0] Broadcast : recherche de la valeur en  [765,683]
+[0] Resultat de la recherche : 1448
+[0] Broadcast : recherche de la valeur en  [471,501]
+[0] Resultat de la recherche : 972
+[0] Broadcast : recherche de la valeur en  [650,263]
+[0] Resultat de la recherche : 913
+[0] Broadcast : recherche de la valeur en  [650,263]
+[0] Resultat de la recherche : 913
 [0] Envoie TAG FIN  vers : 1
 [0] Envoie TAG FIN  vers : 2
 [0] Envoie TAG FIN  vers : 3
