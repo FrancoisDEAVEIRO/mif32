@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     int nbInfoNode = 3;
     int nbInfoStockees = 5;
     int taille = (nb_process-1)*nbInfoNode;
-    int buff[taille], tag[1], data[2], ack[1];
+    int buff[taille], tag[1], data[2], ack[1], espace[4];
     for(int j=0; j<taille; j++){
         buff[j]=-1;
     }
@@ -123,24 +123,21 @@ int main(int argc, char** argv) {
 		// On cherche le noeud à delete
 		for(std::vector<Noeud>::iterator i = grille.noeuds.begin(); i != grille.noeuds.end();i++){
 			if((*i).id == noeudDelete){
-				// Récupération des données du noeud 
-				tag[0] = INSERTION; 
-				MPI_Send(tag, 1, MPI_INT, (*i).idVoisin, 0, MPI_COMM_WORLD);
-				// Transfert vers le noeud voisin
-				for(unsigned int j=0; j<(*i).tab.size(); j++){
-					Data d;
-					d.x = rand()%N;
-					d.y = rand()%N;
-					data[0] = (*i).tab[j].x;
-					data[1] = (*i).tab[j].y;
-					MPI_Send(data, 2, MPI_INT, (*i).idVoisin, 0, MPI_COMM_WORLD);
-					fichier << "[0] Envoie de la donnee " << data[0] << " à insérer pour : " << (*i).idVoisin << std::endl;
-					MPI_Recv(ack, 1, MPI_INT, (*i).idVoisin, 0, MPI_COMM_WORLD, &status);
-					fichier << "[0] ACK reçu de " << (*i).idVoisin << std::endl;
-				}
-				
+				// On conserve les données du noeud pour vérifier ensuite que sa clé est bien retrouvable avec un autre noeud
+				data[0] = (*i).X;
+				data[1] = (*i).Y;
 				// Suppression du noeud dans la grille
 				grille.noeuds.erase(i);
+				MPI_Recv(ack, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
+				
+				// On lance une recherche 
+				for(int j=1; j<nb_process; j++)	 
+					MPI_Send(tag, 1, MPI_INT,j, 0, MPI_COMM_WORLD); 
+				for(int j=1; j<nb_process; j++)	 
+					MPI_Send(data, 2, MPI_INT,j, 0, MPI_COMM_WORLD); 
+				MPI_Recv(ack, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
+				fichier << "[0] Resultat de la recherche : " << ack[0] << std::endl;
+				break;
 			}
 		}
 		
@@ -158,7 +155,7 @@ int main(int argc, char** argv) {
 		Noeud node;
 		while(!fin){
 		// Reception du type de message à traiter ensuite
-			MPI_Recv( tag, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+			MPI_Recv( tag, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
 			fichier << "["<< my_rank << "] TAG reçu : ";
 			
 			switch(tag[0]){
@@ -187,7 +184,7 @@ int main(int argc, char** argv) {
 				}
 				case INSERTION : {
 					fichier << "INSERTION" << std::endl;
-					MPI_Recv( data, 2, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+					MPI_Recv( data, 2, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
 					Data d;
 					d.x = data[0];
 					d.y = data[1];
@@ -196,7 +193,7 @@ int main(int argc, char** argv) {
 
 					fichier << "["<< my_rank << "] Donnée insérée" << std::endl;
 					ack[0] = 1;
-					MPI_Send(ack, 1, MPI_INT, 0,  0, MPI_COMM_WORLD);
+					MPI_Send(ack, 1, MPI_INT, status.MPI_SOURCE,  0, MPI_COMM_WORLD);
 					fichier << "["<< my_rank << "] Envoie ACK à 0" << std::endl;
 					break;
 				} case RECHERCHE : {
@@ -220,10 +217,43 @@ int main(int argc, char** argv) {
 					fichier << "["<< my_rank << "] Fin" << std::endl;
 					break;
 				}
+				case INFO : {
+					MPI_Recv( espace, 4, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
+					if(node.espace.xMin > espace[0])
+						node.espace.xMin = espace[0];
+					if(node.espace.xMax > espace[1])
+						node.espace.xMax = espace[1];
+					if(node.espace.yMin > espace[2])
+						node.espace.yMin = espace[2];
+					if(node.espace.yMax > espace[3])
+						node.espace.yMax = espace[3];
+					break;
+				}
 				case SUPPRESSION : {
-					/*MPI_Finalize();
-					fichier.close();
-					return 0;*/
+					// Transfert vers le noeud voisin
+					for(unsigned int j=0; j<node.tab.size(); j++){
+						tag[0] = INSERTION; 
+						MPI_Send(tag, 1, MPI_INT, node.idVoisin, 0, MPI_COMM_WORLD);
+						Data d;
+						d.x = rand()%N;
+						d.y = rand()%N;
+						data[0] = node.tab[j].x;
+						data[1] = node.tab[j].y;
+						MPI_Send(data, 2, MPI_INT, node.idVoisin, 0, MPI_COMM_WORLD);
+						fichier << "["<< my_rank <<"] Envoie de la donnee " << data[0] << " à insérer pour : " << node.idVoisin << std::endl;
+						MPI_Recv(ack, 1, MPI_INT, node.idVoisin, 0, MPI_COMM_WORLD, &status);
+						fichier << "["<< my_rank <<"] ACK reçu de " << node.idVoisin << std::endl;
+					}
+					//Délégation de la zone de responsabilité du noeud
+					tag[0] = INFO; 
+					MPI_Send(tag, 1, MPI_INT, node.idVoisin, 0, MPI_COMM_WORLD);
+					espace[0] = node.espace.xMin;
+					espace[1] = node.espace.xMax;
+					espace[2] = node.espace.yMin;
+					espace[3] = node.espace.yMax;
+					MPI_Send( espace, 4, MPI_INT, node.idVoisin, 0, MPI_COMM_WORLD);
+					// On informe le coordinateur que la suppression est terminée
+					MPI_Send(ack, 1, MPI_INT, 0,  0, MPI_COMM_WORLD);
 					break;
 				}
 				default: {
