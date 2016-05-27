@@ -108,11 +108,13 @@ int main(int argc, char** argv) {
 				data[0] = last5Data[i].x;
 				data[1] = last5Data[i].y;			
 			}
-			for(int j=1; j<nb_process; j++)	 
-				MPI_Send(data, 2, MPI_INT,j, 0, MPI_COMM_WORLD); 
 			fichier << "[0] Broadcast : recherche de la valeur en  [" << data[0] << "," << data[1] << "]" << std::endl;
-			MPI_Recv(ack, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
-			fichier << "[0] Resultat de la recherche : " << ack[0] << std::endl;
+			
+			for(int j=1; j<nb_process; j++)	{
+				MPI_Send(data, 2, MPI_INT,j, 0, MPI_COMM_WORLD); 		
+				MPI_Recv(ack, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
+				fichier << "[0] Resultat de la recherche : " << ack[0] << std::endl;
+			}
 		}
 		
 		//SUPPRESSION	
@@ -122,21 +124,24 @@ int main(int argc, char** argv) {
 		MPI_Send(tag, 1, MPI_INT, noeudDelete, 0, MPI_COMM_WORLD); 
 		// On cherche le noeud à delete
 		for(std::vector<Noeud>::iterator i = grille.noeuds.begin(); i != grille.noeuds.end();i++){
-			if((*i).id == noeudDelete){
+			if((*i).id == noeudDelete){			
 				// On conserve les données du noeud pour vérifier ensuite que sa clé est bien retrouvable avec un autre noeud
 				data[0] = (*i).X;
 				data[1] = (*i).Y;
 				// Suppression du noeud dans la grille
 				grille.noeuds.erase(i);
-				MPI_Recv(ack, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
 				
+				// On attend l'acquittement avant de lancer la recherche
+				MPI_Recv(ack, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
+				tag[0] = RECHERCHE; 
 				// On lance une recherche 
 				for(int j=1; j<nb_process; j++)	 
 					MPI_Send(tag, 1, MPI_INT,j, 0, MPI_COMM_WORLD); 
-				for(int j=1; j<nb_process; j++)	 
+				for(int j=1; j<nb_process; j++){	 
 					MPI_Send(data, 2, MPI_INT,j, 0, MPI_COMM_WORLD); 
-				MPI_Recv(ack, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
-				fichier << "[0] Resultat de la recherche : " << ack[0] << std::endl;
+					MPI_Recv(ack, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
+					fichier << "[0] Resultat de la recherche : " << ack[0] << std::endl;
+				}
 				break;
 			}
 		}
@@ -200,6 +205,7 @@ int main(int argc, char** argv) {
 					fichier << "RECHERCHE" << std::endl;
 					MPI_Recv( data, 2, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);					
 					fichier << "["<< my_rank << "] Reception du message de broadcast de recherche" << std::endl;
+					ack[0] = -1;
 					for(unsigned int i=0; i<node.tab.size(); i++){
 						if(node.tab[i].x == data[0] && node.tab[i].y == data[1]){
 							ack[0] = node.tab[i].value;
@@ -208,6 +214,8 @@ int main(int argc, char** argv) {
 							break;
 						}
 					}
+					MPI_Send(ack, 1, MPI_INT, 0,  0, MPI_COMM_WORLD);
+					fichier << "["<< my_rank << "] ECHEC RECHERCHE" << std::endl;
 
 					break;
 				}
@@ -221,11 +229,11 @@ int main(int argc, char** argv) {
 					MPI_Recv( espace, 4, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
 					if(node.espace.xMin > espace[0])
 						node.espace.xMin = espace[0];
-					if(node.espace.xMax > espace[1])
+					if(node.espace.xMax < espace[1])
 						node.espace.xMax = espace[1];
 					if(node.espace.yMin > espace[2])
 						node.espace.yMin = espace[2];
-					if(node.espace.yMax > espace[3])
+					if(node.espace.yMax < espace[3])
 						node.espace.yMax = espace[3];
 					break;
 				}
@@ -253,6 +261,7 @@ int main(int argc, char** argv) {
 					espace[3] = node.espace.yMax;
 					MPI_Send( espace, 4, MPI_INT, node.idVoisin, 0, MPI_COMM_WORLD);
 					// On informe le coordinateur que la suppression est terminée
+					ack[0] = 0;
 					MPI_Send(ack, 1, MPI_INT, 0,  0, MPI_COMM_WORLD);
 					break;
 				}

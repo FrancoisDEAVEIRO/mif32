@@ -16,6 +16,7 @@ Grille::Grille(int n){
 
 void Grille::insertion(Noeud& n){
     // Cas du noeud qui prend en charge toute la grille (id = 1)
+    n.affiche();
     if(noeuds.size() == 0){
         n.espace.xMin = 0;
         n.espace.xMax = N;
@@ -29,36 +30,39 @@ void Grille::insertion(Noeud& n){
 				if((*i).hauteur() >= (*i).largeur()){
 					n.espace.xMin = (*i).espace.xMin;
 					n.espace.xMax = (*i).espace.xMax;
-					if((*i).Y >= (*i).espace.yMax/2){
+					int newYMax = (*i).espace.yMax-(((*i).espace.yMax-(*i).espace.yMin)/2);
+					if((*i).Y >= newYMax){
 						n.espace.yMin = (*i).espace.yMin;
-						(*i).espace.yMin = (*i).espace.yMax/2;
+						(*i).espace.yMin = newYMax;
 						n.espace.yMax = (*i).espace.yMin;
 					}else{
 						n.espace.yMax = (*i).espace.yMax;
-						(*i).espace.yMax = (*i).espace.yMax/2;
+						(*i).espace.yMax = newYMax;
 						n.espace.yMin = (*i).espace.yMax;
 					}
 				}else{
 					n.espace.yMin = (*i).espace.yMin;
 					n.espace.yMax = (*i).espace.yMax;
-					if((*i).X >= (*i).espace.xMax/2){
+					int newXMax = (*i).espace.xMax-(((*i).espace.xMax-(*i).espace.xMin)/2);
+					if((*i).X >= newXMax){
 						n.espace.xMin = (*i).espace.xMin;
-						(*i).espace.xMin = (*i).espace.xMax/2;
+						(*i).espace.xMin = newXMax;
 						n.espace.xMax = (*i).espace.xMin;
 					}else{
 						n.espace.xMax = (*i).espace.xMax;
-						(*i).espace.xMax = (*i).espace.xMax/2;
+						(*i).espace.xMax = newXMax;
 						n.espace.xMin = (*i).espace.xMax;
 					}
 				}
 				// On vérifie que le noeud insérer à ses coordonnées qui sont dans le nouvel espace, sinon on lui en donne de nouvelle
 				if(n.espace.xMin>n.X || n.espace.xMax < n.X || n.espace.yMin > n.Y || n.espace.yMax < n.Y ){
-					n.X = (rand()% (n.espace.yMax - n.espace.yMin)) + n.espace.yMin;
+					n.X = (rand()% (n.espace.xMax - n.espace.xMin)) + n.espace.xMin;
 					n.Y = (rand()% (n.espace.yMax - n.espace.yMin)) + n.espace.yMin;
 				}
 				// Mise à jour du voisin
 				(*i).idVoisin = n.id;
-				n.id = (*i).id;
+				n.idVoisin = (*i).id;
+				break;
 			}
 		}
     }
